@@ -68,6 +68,8 @@ jobs:
           --health-retries 5
           --health-start-period 1s 
     steps:
+      - name: "Checkout kodu"
+        uses: actions/checkout@v6
       - name: "Seed db"
         run: > 
           psql -h 127.0.0.1 -U ${DB_USER} -d ${DB_NAME} 
