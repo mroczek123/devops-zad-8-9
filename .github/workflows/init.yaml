@@ -60,6 +60,8 @@ jobs:
         run: > 
           psql -h 127.0.0.1 -U ${POSTGRES_USER} -d ${POSTGRES_DB} 
           -f seed.sql
+        env:
+          PGPASSWORD: "postgres"
       - name: "Testy"
         run: "npm run test"
 
