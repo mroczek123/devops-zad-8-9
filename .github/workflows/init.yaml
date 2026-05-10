@@ -24,7 +24,7 @@ jobs:
 
     - name: "Linter"
       working-directory: ./backend
-      run: "npm run lint"
+      run: "npm install --include=dev && npm run lint"
 
   test:
     name: "Test Node.js version: ${{ matrix.node_version }}"
@@ -78,7 +78,7 @@ jobs:
           PGPASSWORD: "postgres"
       - name: "Testy"
         working-directory: ./backend
-        run: "npm run test"
+        run: "npm install --include=dev && npm run test"
 
       - name: "Generowanie raportu"
         if: ${{ matrix.node_version == 20 }}
