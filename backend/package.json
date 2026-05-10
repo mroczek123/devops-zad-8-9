@@ -5,14 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "",
-    "lint": ""
+    "test": "jest",
+    "lint": "eslint ./src"
   },
-  "author": "",
+  "author": "Maciej Kulesza",
   "license": "ISC",
   "dependencies": {
     "express": "^5.2.1",
     "pg": "^8.20.0",
     "redis": "^5.12.1"
+  },
+  "devDependencies": {
+    "eslint": "^10.3.0",
+    "globals": "^17.6.0",
+    "jest": "^30.4.2"
   }
 }
