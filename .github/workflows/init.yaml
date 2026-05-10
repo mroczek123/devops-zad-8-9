@@ -51,14 +51,26 @@ jobs:
           POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
           POSTGRES_DB: "products"
+        options: >-
+          --health-cmd "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+          --health-start-period 10s
       redis:
         image: "redis:8"
         ports:
           - 6379:6379
+        options: >-
+          --health-cmd "redis-cli --raw incr ping"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+          --health-start-period 1s 
     steps:
       - name: "Seed db"
         run: > 
-          psql -h 127.0.0.1 -U ${POSTGRES_USER} -d ${POSTGRES_DB} 
+          psql -h 127.0.0.1 -U ${DB_USER} -d ${DB_NAME} 
           -f seed.sql
         env:
           PGPASSWORD: "postgres"
