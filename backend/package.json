@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "run": "echo \"Error: no test specified\" && exit 1"
+    "test": "",
+    "lint": ""
   },
   "author": "",
   "license": "ISC",

@@ -13,6 +13,7 @@ const DB_PORT = process.env.DB_PORT;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_NAME = process.env.DB_NAME;
+const INSTANCE_ID = process.env.INSTANCE_ID;
 
 const port = process.env.PORT;
 
@@ -87,7 +88,7 @@ app.post('/items', async (req, res, next) => {
 app.get('/stats', async (req, res) => {
   res.send({
     "productsAmount": await countProducts(),
-    "instanceId": process.env.INSTANCE_ID,
+    "instanceId": INSTANCE_ID,
     "productsCacheHits": await redisClient.get(PRODUCTS_CACHE_HITS_KEY),
   });
 })

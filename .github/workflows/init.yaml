@@ -1,0 +1,73 @@
+name: flow
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches: 
+      -"master"
+    paths-ignore: ["**.md", "docs/**"]
+  pull_request:
+    paths-ignore: ["**.md", "docs/**"]
+
+# Cache: Cache npm zależności (przez cache: 'npm' w actions/setup-node@v4)
+# Timeout: timeout-minutes na co najmniej jednym jobie
+# Step names: Każdy step musi mieć opisowy name:
+
+env:
+  NODE_VERSION: 18
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout kodu"
+      uses: actions/checkout@v6
+
+    - name: "Linter"
+      run: "npm run lint"
+
+  test:
+    name: "Test Node.js version: ${{ matrix.node-version }}"
+    needs: [lint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [18, 20, 22]
+    env:
+      REDIS_ADDRESS: "redis://127.0.0.1:6379"
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_NAME: "products"
+      PORT: "3000"
+      INSTANCE_ID: "1"
+    services:
+      postgres:
+        image: "postgres:16-alpine"
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_DB: "products"
+      redis:
+        image: "redis:8"
+        ports:
+          - 6379:6379
+    steps:
+      - name: "Seed db"
+        run: > 
+          psql -h 127.0.0.1 -U ${POSTGRES_USER} -d ${POSTGRES_DB} 
+          -f seed.sql
+      - name: "Testy"
+        run: "npm run test"
+
+      - name: "Generowanie raportu"
+        if: ${{ matrix.node_version == 20 }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: "raport"
+          path: "TODO"
+          retention-days: 1
+      - name: "summary"
+        run: "echo lolz >> $GITHUB_STEP_SUMMARY"
