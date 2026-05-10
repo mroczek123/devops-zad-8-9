@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Produkty</title>
+</head>
+
+<body>
+    <div id="productsList"></div>
+
+    <div>
+        <div>Nowy produkt</div>
+        <div>
+            <form method="post" onsubmit="submitForm(event)">
+                <input type="text" name="name" placeholder="Nazwa produktu" />
+                <input type="text" name="price" placeholder="Cena" />
+                <button type="submit">Wyślij</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        fetch("/api/items").then(async result => {
+            const items = await result.json();
+            document.getElementById("productsList").innerHTML = JSON.stringify(items);
+        })
+        async function submitForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const requestBody = formData.entries().reduce((acc, curr) => {
+                acc[curr[0]] = curr[1];
+                return acc;
+            },{});
+            const response = await fetch("/api/items", {
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody),
+            });
+            window.location.reload(true);
+        }
+    </script>
+</body>
+
+</html>

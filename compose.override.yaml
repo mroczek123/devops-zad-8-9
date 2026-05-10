@@ -1,0 +1,16 @@
+#Bind mount katalogu z kodem backendu do kontenera (zmiany kodu widoczne bez przebudowy obrazu).
+# Zmienna środowiskowa NODE_ENV=development i DEBUG=1.
+#Nadpisanie komendy startowej na wariant z automatycznym restartem po zmianach (np. nodemon lub node --watch).
+# Środowisko produkcyjne (bez override) uruchamia czysty obraz bez bind mountów.
+services:
+  backend1: &backend-config
+    environment:
+      NODE_ENV: "development"
+      DEBUG: 1
+    volumes:
+      - "./backend/src:/src"
+    command: ["--watch", "index.js"]
+  backend2:
+    <<: *backend-config
+  backend3:
+    <<: *backend-config

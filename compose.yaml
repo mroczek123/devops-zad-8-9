@@ -1,0 +1,99 @@
+services:
+  backend1: &backend-service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment: &backend-env
+      INSTANCE_ID: "1"
+      REDIS_ADDRESS: "redis://cache:6379"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      PORT: 3000
+    networks:
+      - back-net
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+
+  backend2: 
+    <<: *backend-service
+    environment:
+      <<: *backend-env
+      INSTANCE_ID: "2"
+
+  backend3:
+    <<: *backend-service
+    environment:
+      <<: *backend-env
+      INSTANCE_ID: "3"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    networks:
+      - back-net
+      - front-net
+
+  db:
+    image: postgres:16-alpine
+    networks:
+      - back-net
+    environment: &postgres-params
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  cache:
+    image: redis:8
+    networks:
+      - back-net
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+
+
+  db-seed:
+    image: postgres:16-alpine
+    profiles:
+      - tools
+    networks:
+      - back-net
+    volumes:
+      - ./db/seed.sql:/seed.sql
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command: >
+      psql -h db -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      -f seed.sql
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  front-net:
+    driver: bridge
+  back-net:
+    driver: bridge
+
+volumes:
+  pg-data:
+    name: pg-data 
