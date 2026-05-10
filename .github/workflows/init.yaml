@@ -27,7 +27,7 @@ jobs:
       run: "npm run lint"
 
   test:
-    name: "Test Node.js version: ${{ matrix.node-version }}"
+    name: "Test Node.js version: ${{ matrix.node_version }}"
     needs: [lint]
     runs-on: ubuntu-latest
     strategy:
