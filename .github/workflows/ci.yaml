@@ -58,8 +58,7 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: "mkdir ../report && npm run unit-tests >> ../report/result.txt"
-        # run: echo \`\`\`"$(npm run unit-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: "mkdir ../report && npm run unit-tests >> ../report/result.txt && cat result.txt >> $GITHUB_STEP_SUMMARY"
 
       - name: "Generate summary"
         uses: actions/upload-artifact@v4
@@ -126,7 +125,7 @@ jobs:
       
       - name: "Populate database with initial data"
         working-directory: ./backend
-        run: echo \`\`\`"$(npm run unit-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: echo \`\`\`"$(npm run integration-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
   build-and-push:
