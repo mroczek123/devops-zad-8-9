@@ -11,7 +11,7 @@ export async function readProducts() {
   const products = pgResult.rows;
   Clients.redisClient.set(Settings.REDIS_PRODUCTS_KEY, JSON.stringify(products));
   Clients.redisClient.expire(Settings.REDIS_PRODUCTS_KEY, Settings.REDIS_CACHE_SECONDS);
-  return products
+  return products;
 }
 
 export async function countProducts() {

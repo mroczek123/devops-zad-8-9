@@ -11,4 +11,4 @@ export const Settings = {
     "DB_NAME": process.env.DB_NAME,
     "INSTANCE_ID": process.env.INSTANCE_ID,
     "port": process.env.PORT,
-}
+};

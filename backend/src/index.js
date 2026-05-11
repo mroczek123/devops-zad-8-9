@@ -1,15 +1,14 @@
 import express from 'express';
 import { Settings } from './settings.js';
-import {readProducts, countProducts, writeProduct} from "./helpers.js"
+import {readProducts, countProducts, writeProduct} from "./helpers.js";
 
 const app = express();
-zzz
 
 app.use(express.json());
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!');
 });
 
 app.get('/items', async (req, res) => {
@@ -29,7 +28,7 @@ app.post('/items', async (req, res, next) => {
   writeProduct(newItem);
   res.status(201).send("");
   next();
-})
+});
 
 app.get('/stats', async (req, res) => {
   res.send({
@@ -37,8 +36,8 @@ app.get('/stats', async (req, res) => {
     "instanceId": INSTANCE_ID,
     "productsCacheHits": await redisClient.get(Settings.PRODUCTS_CACHE_HITS_KEY),
   });
-})
+});
 
 app.listen(Settings.port, () => {
-  console.log(`Example app listening on port ${Settings.port}`)
-})
+  console.log(`Example app listening on port ${Settings.port}`);
+});
