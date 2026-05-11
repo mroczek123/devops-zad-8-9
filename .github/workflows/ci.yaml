@@ -117,6 +117,8 @@ jobs:
     needs: [integration-test]
     name: "Build and push to GHCR"
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - name: "Code checkout"
         uses: actions/checkout@v6
