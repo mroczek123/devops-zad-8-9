@@ -4,9 +4,13 @@ on:
   push:
     branches: 
       - "master"
+    paths: ["backend/*"]
     paths-ignore: ["**.md", "docs/**"]
   pull_request:
+    paths: ["backend/**"]
     paths-ignore: ["**.md", "docs/**"]
+    
+    
 
 # Cache: Cache npm zależności (przez cache: 'npm' w actions/setup-node@v4)
 # Timeout: timeout-minutes na co najmniej jednym jobie
@@ -37,6 +41,11 @@ jobs:
     steps:
       - name: "Code checkout"
         uses: actions/checkout@v6
+      
+      - name: "Setup node"
+        uses: "./.github/actions/setup-node-action.yml"
+        with:
+          node-version: ${{ matrix.node_version }}
       
       - name: "Tests"
         working-directory: ./backend
@@ -93,6 +102,11 @@ jobs:
     steps:
       - name: "Code checkout"
         uses: actions/checkout@v6
+      - name: "Setup node"
+        uses: "./.github/actions/setup-node-action.yml"
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: "Seed db"
         run: > 
           psql -h 127.0.0.1 -U ${DB_USER} -d ${DB_NAME} 

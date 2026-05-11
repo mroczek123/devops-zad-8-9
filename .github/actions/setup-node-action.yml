@@ -1,0 +1,15 @@
+name: 'Setup Node and deps'
+description: ''
+inputs:
+  node-version:
+    description: 'Node version'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: "Setup Node.js ${{ inputs.node-version }}"
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: "Install dependencies"
+      run: "npm ci"
