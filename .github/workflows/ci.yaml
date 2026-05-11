@@ -7,22 +7,17 @@ on:
     paths: [
       ".github/**",
       "backend/**",
-      # "!**.md",
-      # "!**/docs/**",
+      "!**.md",
+      "!**/docs/**",
     ]
   pull_request:
     paths: [
       ".github/**",
       "backend/**",
-      # "!**.md",
-      # "!**/docs/**",
+      "!**.md",
+      "!**/docs/**",
     ]
     
-    
-
-# Cache: Cache npm zależności (przez cache: 'npm' w actions/setup-node@v4)
-# Timeout: timeout-minutes na co najmniej jednym jobie
-# Step names: Każdy step musi mieć opisowy name:
 
 env:
   NODE_VERSION: 18
@@ -34,7 +29,11 @@ jobs:
     steps:
     - name: "Code checkout"
       uses: actions/checkout@v6
-
+    - name: "Setup node"
+      uses: "./.github/actions/setup-node-action"
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        working-directory: "./backend"
     - name: "Linter"
       working-directory: ./backend
       run: "npm run lint"
@@ -61,13 +60,6 @@ jobs:
         working-directory: ./backend
         run: "npm run unit-tests"
 
-      # - name: "Report"
-      #   if: ${{ matrix.node_version == 20 }}
-      #   uses: actions/upload-artifact@v7
-      #   with:
-      #     name: "raport"
-      #     path: "TODO"
-      #    retention-days: 1
       - name: "Generate summary"
         run: "echo hi >> $GITHUB_STEP_SUMMARY"
   
@@ -129,15 +121,6 @@ jobs:
         working-directory: ./backend
         run: "npm install --include=dev && npm run integration-tests"
 
-      # - name: "Generate report"
-      #   uses: actions/upload-artifact@v7
-      #   with:
-      #     name: "raport"
-      #     path: "TODO"
-      #     retention-days: 1
-
-      - name: "Generate summary"
-        run: "echo lolz >> $GITHUB_STEP_SUMMARY"
     
   build-and-push:
     needs: [integration-test]
