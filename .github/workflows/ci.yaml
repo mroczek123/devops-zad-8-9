@@ -135,7 +135,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/mroczek123/backend:latest
+          tags: ghcr.io/mroczek123/devops-zad-8-9:latest
           context: ./backend
 
