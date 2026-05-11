@@ -4,6 +4,6 @@ import { countProducts } from '../../src/helpers';
 
 describe('countProducts', () => {
   it('countProducts returns 3', async () => {
-    expect(countProducts()).toBe(3);
+    expect(await countProducts()).toBe(3);
   });
 });
