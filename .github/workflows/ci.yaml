@@ -5,15 +5,15 @@ on:
     branches: 
       - "master"
     paths: [
-      ".github/*",
-      "backend/*",
+      ".github/**",
+      "backend/**",
       # "!**.md",
       # "!**/docs/**",
     ]
   pull_request:
     paths: [
-      ".github/*",
-      "backend/*",
+      ".github/**",
+      "backend/**",
       # "!**.md",
       # "!**/docs/**",
     ]
