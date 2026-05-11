@@ -58,10 +58,16 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: echo \`\`\`"$(npm run unit-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: "mkdir ../report && npm run unit-tests >> ../report/result.txt"
+        # run: echo \`\`\`"$(npm run unit-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
-      # - name: "Generate summary"
-        # run: "echo summary end "
+      - name: "Generate summary"
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.node_version == 20 }}
+        with:
+          retention-days: 1
+          name: "unit-test-report"
+          path: "./report"
   
   integration-test:
     name: "Integration tests"
