@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "integration-tests": "vitest ./tests/integration_tests",
+    "integration-tests": "node --test ./test/integration_tests",
     "build": "",
-    "unit-tests": "vitest ./tests/unit_tests",
+    "unit-tests": "node --test ./test/unit_tests",
     "lint": "eslint ./src"
   },
   "author": "Maciej Kulesza",
@@ -15,8 +15,7 @@
   "dependencies": {
     "express": "^5.2.1",
     "pg": "^8.20.0",
-    "redis": "^5.12.1",
-    "vitest": "^4.1.5"
+    "redis": "^5.12.1"
   },
   "devDependencies": {
     "eslint": "^10.3.0",

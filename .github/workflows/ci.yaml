@@ -61,7 +61,7 @@ jobs:
         run: "npm run unit-tests"
 
       - name: "Generate summary"
-        run: "echo hi >> $GITHUB_STEP_SUMMARY"
+        run: "echo summary end >> $GITHUB_STEP_SUMMARY"
   
   integration-test:
     name: "Integration tests"
@@ -117,9 +117,10 @@ jobs:
           -f ./db/seed.sql
         env:
           PGPASSWORD: "postgres"
+      
       - name: "Populate database with initial data"
         working-directory: ./backend
-        run: "npm install --include=dev && npm run integration-tests"
+        run: npm run integration-tests"
 
     
   build-and-push:
@@ -144,6 +145,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v7
+        timeout-minutes: 6
         with:
           platforms: linux/amd64,linux/arm64
           push: true
