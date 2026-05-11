@@ -37,7 +37,7 @@ jobs:
 
     - name: "Linter"
       working-directory: ./backend
-      run: "npm install --include=dev && npm run lint"
+      run: "npm run lint"
 
   unit-test:
     name: "Unit tests Node.js version: ${{ matrix.node_version }}"
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: [18, 20, 22] 
+        node_version: [20, 22]
       fail-fast: false
     steps:
       - name: "Code checkout"
@@ -59,7 +59,7 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: "npm install --include=dev && npm run unit-tests"
+        run: "npm run unit-tests"
 
       # - name: "Report"
       #   if: ${{ matrix.node_version == 20 }}
