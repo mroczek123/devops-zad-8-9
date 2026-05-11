@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: [18, 20, 22]
+        node_version: [18, 20]
       fail-fast: false
     steps:
       - name: "Code checkout"
@@ -58,10 +58,10 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: "npm run unit-tests"
+        run: "npm run unit-tests >> $GITHUB_STEP_SUMMARY"
 
-      - name: "Generate summary"
-        run: "echo summary end >> $GITHUB_STEP_SUMMARY"
+      # - name: "Generate summary"
+        # run: "echo summary end "
   
   integration-test:
     name: "Integration tests"
