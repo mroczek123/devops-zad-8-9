@@ -136,6 +136,6 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          tags: ghcr.io/mroczek123/devops-zad-8-9:latest
+          tags: ghcr.io/mroczek123/backend:latest
           context: ./backend
 
