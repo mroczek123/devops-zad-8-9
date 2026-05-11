@@ -16,7 +16,8 @@ export async function readProducts() {
 
 export async function countProducts() {
   const pgResult = await Clients.postgresClient.query('SELECT COUNT(*) FROM products;');
-  return pgResult.rows[0].count;
+  const result = parseInt(pgResult.rows[0].count);
+  return result;
 }
 
 export async function writeProduct(newItem) {
