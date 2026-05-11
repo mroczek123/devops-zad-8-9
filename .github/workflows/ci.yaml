@@ -123,9 +123,9 @@ jobs:
         env:
           PGPASSWORD: "postgres"
       
-      - name: "Populate database with initial data"
+      - name: "Run tests"
         working-directory: ./backend
-        run: echo \`\`\`"$(npm run integration-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: npm run integration-tests >> summary.txt && echo \`\`\`"$(cat summary.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
   build-and-push:
