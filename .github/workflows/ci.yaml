@@ -40,7 +40,7 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: "npm install --include=dev && npm run unit-test"
+        run: "npm install --include=dev && npm run unit-tests"
 
       # - name: "Report"
       #   if: ${{ matrix.node_version == 20 }}
