@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { countProducts } from '../../src/helpers';
 
 describe('countProducts', () => {
-  it('countProducts returns 3', () => {
+  it('countProducts returns 3', async () => {
     expect(countProducts()).toBe(3);
   });
 });
