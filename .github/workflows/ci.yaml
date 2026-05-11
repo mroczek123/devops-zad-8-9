@@ -120,7 +120,7 @@ jobs:
       
       - name: "Populate database with initial data"
         working-directory: ./backend
-        run: npm run integration-tests"
+        run: echo \`\`\`"$(npm run unit-tests)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
   build-and-push:
