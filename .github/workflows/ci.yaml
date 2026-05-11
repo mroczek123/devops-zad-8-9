@@ -58,7 +58,7 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: "echo ```${npm run unit-tests}``` >> $GITHUB_STEP_SUMMARY"
+        run: echo \`\`\`"$(cat result.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
       # - name: "Generate summary"
         # run: "echo summary end "
