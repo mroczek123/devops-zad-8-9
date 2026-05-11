@@ -1,5 +1,5 @@
-name: flow
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: CI
+run-name: Test, Build pipeline
 on:
   push:
     branches: 
@@ -17,22 +17,45 @@ env:
 
 jobs:
   lint:
+    name: "Linter"
     runs-on: ubuntu-latest
     steps:
-    - name: "Checkout kodu"
+    - name: "Code checkout"
       uses: actions/checkout@v6
 
     - name: "Linter"
       working-directory: ./backend
       run: "npm install --include=dev && npm run lint"
 
-  test:
-    name: "Test Node.js version: ${{ matrix.node_version }}"
+  unit-test:
+    name: "Unit tests Node.js version: ${{ matrix.node_version }}"
     needs: [lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: [18, 20, 22]
+        node_version: [18, 20, 22] 
+    steps:
+      - name: "Code checkout"
+        uses: actions/checkout@v6
+      
+      - name: "Tests"
+        working-directory: ./backend
+        run: "npm install --include=dev && npm run unit-test"
+
+      # - name: "Report"
+      #   if: ${{ matrix.node_version == 20 }}
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: "raport"
+      #     path: "TODO"
+      #    retention-days: 1
+      - name: "Generate summary"
+        run: "echo hi >> $GITHUB_STEP_SUMMARY"
+  
+  integration-test:
+    name: "Integration tests"
+    needs: [unit-test]
+    runs-on: ubuntu-latest
     env:
       REDIS_ADDRESS: "redis://127.0.0.1:6379"
       DB_HOST: "127.0.0.1"
@@ -68,7 +91,7 @@ jobs:
           --health-retries 5
           --health-start-period 1s 
     steps:
-      - name: "Checkout kodu"
+      - name: "Code checkout"
         uses: actions/checkout@v6
       - name: "Seed db"
         run: > 
@@ -76,16 +99,24 @@ jobs:
           -f ./db/seed.sql
         env:
           PGPASSWORD: "postgres"
-      - name: "Testy"
+      - name: "Populate database with initial data"
         working-directory: ./backend
-        run: "npm install --include=dev && npm run test"
+        run: "npm install --include=dev && npm run integration-tests"
 
-      - name: "Generowanie raportu"
-        if: ${{ matrix.node_version == 20 }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: "raport"
-          path: "TODO"
-          retention-days: 1
-      - name: "summary"
+      # - name: "Generate report"
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: "raport"
+      #     path: "TODO"
+      #     retention-days: 1
+
+      - name: "Generate summary"
         run: "echo lolz >> $GITHUB_STEP_SUMMARY"
+    
+  build:
+    needs: [integration-test]
+    name: "Build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Code checkout"
+        uses: actions/checkout@v6

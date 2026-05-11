@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "vitest",
+    "integration-tests": "vitest ./tests/integration_tests",
+    "build": "",
+    "unit-tests": "vitest ./tests/unit_tests",
     "lint": "eslint ./src"
   },
   "author": "Maciej Kulesza",
