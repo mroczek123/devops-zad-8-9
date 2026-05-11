@@ -54,6 +54,7 @@ jobs:
         uses: "./.github/actions/setup-node-action"
         with:
           node-version: ${{ matrix.node_version }}
+          working-directory: "./backend"
       
       - name: "Tests"
         working-directory: ./backend
@@ -110,10 +111,12 @@ jobs:
     steps:
       - name: "Code checkout"
         uses: actions/checkout@v6
+      
       - name: "Setup node"
         uses: "./.github/actions/setup-node-action"
         with:
           node-version: ${{ env.NODE_VERSION }}
+          working-directory: "./backend"
 
       - name: "Seed db"
         run: > 
