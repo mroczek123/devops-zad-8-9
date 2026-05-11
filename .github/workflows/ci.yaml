@@ -4,9 +4,17 @@ on:
   push:
     branches: 
       - "master"
-    paths: ["backend/*"]
+    paths: [
+      "backend/*",
+      "**.md",
+      "**/docs/**",
+    ]
   pull_request:
-    paths: ["backend/**"]
+    paths: [
+      "backend/*",
+      "**.md",
+      "**/docs/**",
+    ]
     
     
 
