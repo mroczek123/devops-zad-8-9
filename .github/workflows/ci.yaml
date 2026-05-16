@@ -159,6 +159,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/mroczek123/backend:latest , 
+          tags: ghcr.io/mroczek123/backend:latest , ghcr.io/mroczek123/backend:${GITHUB_REF##*/}  
           context: ./backend
 
