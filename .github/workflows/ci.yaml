@@ -70,7 +70,7 @@ jobs:
         with:
           retention-days: 1
           name: "unit-test-report"
-          path: "./report.xml"
+          path: "./backend/report.xml"
   
   integration-test:
     name: "Integration tests"
