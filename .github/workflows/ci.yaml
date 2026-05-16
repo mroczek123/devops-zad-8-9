@@ -58,11 +58,15 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: mkdir ../report && npm run unit-tests >> ../report/result.txt && echo \`\`\`"$(cat ../report/result.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: mkdir ../report && npm run unit-tests >> ../report/result.txt
+
+      - name: "Failure notification"
+        if: ${{ failure() }}
+        run: echo \`\`\`"$(cat ../report/result.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
       - name: "Generate summary"
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.node_version == 20 }}
+        if: ${{ matrix.node_version == 20 && always()}}
         with:
           retention-days: 1
           name: "unit-test-report"
@@ -87,9 +91,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "postgres"
-          POSTGRES_DB: "products"
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
         options: >-
           --health-cmd "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
           --health-interval 30s
