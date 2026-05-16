@@ -4,6 +4,6 @@ import assert from 'node:assert';
 
 test("CountProducts", async (t) => {
   const result = await countProducts();
-  t.diagnostic({result});
+  t.diagnostic(result);
   assert.equal(result, 3);
 });
