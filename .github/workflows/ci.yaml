@@ -129,7 +129,7 @@ jobs:
       
       - name: "Run tests"
         working-directory: ./backend
-        run: npm run integration-tests >> summary.txt && echo \`\`\`"$(cat summary.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: npm run integration-tests # >> summary.txt && echo \`\`\`"$(cat summary.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
   build-and-push:
@@ -158,6 +158,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/mroczek123/backend:latest
+          tags: ghcr.io/mroczek123/backend:latest , 
           context: ./backend
 
