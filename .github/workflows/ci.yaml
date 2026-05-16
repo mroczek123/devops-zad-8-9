@@ -58,7 +58,7 @@ jobs:
       
       - name: "Tests"
         working-directory: ./backend
-        run: mkdir ../report && npm run unit-tests >> ../report/result.txt
+        run: mkdir ../report && npm run unit-tests # >> ../report/result.txt
 
       - name: "Failure notification"
         if: ${{ failure() }}

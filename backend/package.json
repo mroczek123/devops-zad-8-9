@@ -7,7 +7,7 @@
   "scripts": {
     "integration-tests": "node --test --test-force-exit  ./test/integration_tests",
     "build": "",
-    "unit-tests": "node --test --test-force-exit ./test/unit_tests",
+    "unit-tests": "node --test ./test/unit_tests",
     "lint": "eslint ./src"
   },
   "author": "Maciej Kulesza",
