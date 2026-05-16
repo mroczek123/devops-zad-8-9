@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "integration-tests": "node --test --test-force-exit  ./test/integration_tests",
+    "integration-tests": "node --test --test-force-exit --test-reporter-destination=stdout --test-reporter-destination=report.txt  ./test/integration_tests",
     "build": "",
-    "unit-tests": "node --test ./test/unit_tests",
+    "unit-tests": "node --test --test-reporter-destination=report.txt ./test/unit_tests",
     "lint": "eslint ./src"
   },
   "author": "Maciej Kulesza",
