@@ -62,7 +62,7 @@ jobs:
 
       - name: "Failure notification"
         if: ${{ failure() }}
-        run: echo \`\`\`"$(cat ./report.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: echo \`\`\`"$(cat ./report.xml)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
       - name: "Generate summary"
         uses: actions/upload-artifact@v4
@@ -70,7 +70,7 @@ jobs:
         with:
           retention-days: 1
           name: "unit-test-report"
-          path: "./report.txt"
+          path: "./report.xml"
   
   integration-test:
     name: "Integration tests"
@@ -130,7 +130,7 @@ jobs:
       - name: "Run tests"
         working-directory: ./backend
         timeout-minutes: 5
-        run: npm run integration-tests && echo \`\`\`"$(cat report.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
+        run: npm run integration-tests && echo \`\`\`"$(cat report.xml)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
   build-and-push:
