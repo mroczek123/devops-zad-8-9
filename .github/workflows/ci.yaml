@@ -163,6 +163,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/mroczek123/backend:latest , ghcr.io/mroczek123/backend:${{steps.extract_branch.outputs.branch}}  
+          tags: ghcr.io/mroczek123/backend:latest , ghcr.io/mroczek123/backend:${{steps.extract_branch.outputs.branch}} , ghcr.io/mroczek123/backend:${{ github.sha }}  
           context: ./backend
 
