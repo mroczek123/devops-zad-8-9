@@ -129,6 +129,7 @@ jobs:
       
       - name: "Run tests"
         working-directory: ./backend
+        timeout-minutes: 5
         run: npm run integration-tests # >> summary.txt && echo \`\`\`"$(cat summary.txt)"\`\`\` >> $GITHUB_STEP_SUMMARY
 
     
